@@ -55,7 +55,7 @@ def generate_transactions(month, year, num_records=150):
     return transactions
 
 df = pd.DataFrame([trans for month in range(1, 13) for trans in generate_transactions(month, 2025)])
-print(df.tail())
+#print(df.tail())
 
 
 
