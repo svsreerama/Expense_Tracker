@@ -57,7 +57,6 @@ SELECT strftime('%Y-%m', date) AS month, SUM("amount paid") AS total_spent FROM 
 
 SELECT Description, SUM("Amount Paid") AS Total_Amount_Paid FROM expenses WHERE Category = 'Transportation' GROUP BY Description ORDER by "Total_Amount_Paid" DESC;
 
-This query helps find out the average amount spent per transaction in travel-related categories.
 13. Are there any patterns in grocery spending (e.g., higher spending on weekends, increased spending during specific seasons)?
 
 SELECT CASE WHEN strftime('%w', "Date") IN ('0', '6') THEN 'Weekend'   -- 0 = Sunday, 6 = Saturday ELSE 'Weekday' END AS Day_Type, SUM("Amount Paid") AS Total_Spending FROM expenses WHERE "Description" LIKE '%groceries%' GROUP BY Day_Type;
@@ -96,17 +95,17 @@ WHERE Category = 'Bills'
 GROUP BY strftime('%Y-%m', Date)
 ORDER BY strftime('%Y-%m', Date);
 
-17. Money spent in purchasing books for every month?
+17. Total Money spent in purchasing books for every month?
 
 
 SELECT 
-    strftime('%Y-%m', Date) AS month,
+    strftime('%m', Date) AS month,
     SUM(CASE WHEN Description LIKE '%books%' THEN "Amount Paid" ELSE 0 END) AS total_amount_spent_on_books
 FROM expenses
 GROUP BY month
 ORDER BY month;
 
-18. Quarterly spending of fuel ?
+18. Quarterly spending on fuel ?
 
 SELECT 
     strftime('%Y', Date) AS Year,
