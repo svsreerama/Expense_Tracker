@@ -55,7 +55,7 @@ SELECT strftime('%Y-%m', date) AS month, SUM("amount paid") AS total_spent FROM 
 
 12. What are the typical costs associated with different types of travel (e.g., flights, accommodation, transportation)?
 
-SELECT Description, SUM("Amount Paid") AS Total_Amount_Paid FROM expenses WHERE Category = 'Transportation' GROUP BY Description;
+SELECT Description, SUM("Amount Paid") AS Total_Amount_Paid FROM expenses WHERE Category = 'Transportation' GROUP BY Description ORDER by "Total_Amount_Paid" DESC;
 
 This query helps find out the average amount spent per transaction in travel-related categories.
 13. Are there any patterns in grocery spending (e.g., higher spending on weekends, increased spending during specific seasons)?
