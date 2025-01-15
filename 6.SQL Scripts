@@ -49,6 +49,22 @@ This query helps find out the average amount spent per transaction in travel-rel
 
 SELECT CASE WHEN strftime('%w', "Date") IN ('0', '6') THEN 'Weekend'   -- 0 = Sunday, 6 = Saturday ELSE 'Weekday' END AS Day_Type, SUM("Amount Paid") AS Total_Spending FROM expenses WHERE "Description" LIKE '%groceries%' GROUP BY Day_Type;
 
+14. Define High and Low Priority Categories for Month of January.
+
+SELECT 
+    date, 
+    category, 
+    "payment mode", 
+    description, 
+    "Amount Paid", 
+    cashback,
+    CASE 
+        WHEN category IN ('Bills', 'Food', 'Transportation', 'Pharmacy') THEN 'High Priority'
+        WHEN category IN ('Office Supplies', 'Entertainment', 'Skills Improvement') THEN 'Low Priority'
+        ELSE 'Unknown Priority'
+    END AS priority
+FROM expenses
+WHERE strftime('%Y-%m', date) = '2025-01';
 15. Which category contributes the highest percentage of the total spending?
 
 SELECT 
