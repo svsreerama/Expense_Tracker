@@ -25,7 +25,17 @@ SELECT * FROM expenses WHERE cashback > 0;
 SELECT strftime('%Y-%m', date) AS month, SUM("amount paid") AS total_spent FROM expenses GROUP BY month ORDER BY month;
 8. Which months have the highest spending in categories like "Travel," "Entertainment," or "Gifts"?
 
-SELECT strftime('%Y-%m', date) AS month, category, SUM("amount paid") AS total_spent FROM expenses WHERE category IN ('Transportation', 'Entertainment', 'Gifts') GROUP BY month, category ORDER BY total_spent DESC;
+WITH ranked_spending AS (
+    SELECT strftime('%Y-%m', date) AS month,
+           category,
+           SUM("amount paid") AS total_spent,
+           ROW_NUMBER() OVER (PARTITION BY category ORDER BY SUM("amount paid") DESC) AS rn
+    FROM expenses
+    GROUP BY month, category
+)
+SELECT month, category, total_spent
+FROM ranked_spending
+WHERE rn = 1
 
 9. Are there any recurring expenses that occur during specific months of the year (e.g., insurance premiums, property taxes)?
 
