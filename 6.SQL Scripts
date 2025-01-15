@@ -59,7 +59,20 @@ SELECT Description, SUM("Amount Paid") AS Total_Amount_Paid FROM expenses WHERE 
 
 13. Are there any patterns in grocery spending (e.g., higher spending on weekends, increased spending during specific seasons)?
 
-SELECT CASE WHEN strftime('%w', "Date") IN ('0', '6') THEN 'Weekend'   -- 0 = Sunday, 6 = Saturday ELSE 'Weekday' END AS Day_Type, SUM("Amount Paid") AS Total_Spending FROM expenses WHERE "Description" LIKE '%groceries%' GROUP BY Day_Type;
+SELECT 
+  CASE 
+    WHEN strftime('%w', "Date") IN ('0', '6') THEN 'Weekend'   -- 0 = Sunday, 6 = Saturday 
+    ELSE 'Weekday' 
+  END AS Day_Type, 
+  SUM("Amount Paid") AS Total_Spending 
+FROM expenses 
+WHERE "Description" LIKE '%groceries%' 
+GROUP BY 
+  CASE 
+    WHEN strftime('%w', "Date") IN ('0', '6') THEN 'Weekend' 
+    ELSE 'Weekday' 
+  END;
+
 
 14. Define High and Low Priority Categories for Month of January.
 
@@ -173,4 +186,3 @@ FROM expenses
 GROUP BY Date
 ORDER BY MaxCashback DESC
 LIMIT 1;
-
