@@ -26,3 +26,29 @@ SELECT strftime('%Y-%m', date) AS month, SUM("amount paid") AS total_spent FROM 
 8. Which months have the highest spending in categories like "Travel," "Entertainment," or "Gifts"?
 
 SELECT strftime('%Y-%m', date) AS month, category, SUM("amount paid") AS total_spent FROM expenses WHERE category IN ('Transportation', 'Entertainment', 'Gifts') GROUP BY month, category ORDER BY total_spent DESC;
+
+9. Are there any recurring expenses that occur during specific months of the year (e.g., insurance premiums, property taxes)?
+
+SELECT Category, Description, COUNT(*) AS Occurrences, STRFTIME('%m', Date) AS Month FROM expenses GROUP BY Category, Description, STRFTIME('%m', Date) HAVING COUNT(*) > 1 ORDER BY Month ASC, Category ASC, Occurrences DESC;
+
+
+10. How much cashback or rewards were earned in each month?
+
+SELECT strftime('%Y-%m', date) AS month, SUM(cashback) AS total_cashback FROM expenses WHERE cashback > 0 GROUP BY month ORDER BY month;
+
+11. How has your overall spending changed over time (e.g., increasing, decreasing, remaining stable)?
+
+SELECT strftime('%Y-%m', date) AS month, SUM("amount paid") AS total_spent FROM expenses GROUP BY month ORDER BY month;
+
+12. What are the typical costs associated with different types of travel (e.g., flights, accommodation, transportation)?
+
+SELECT Description, SUM("Amount Paid") AS Total_Amount_Paid FROM expenses WHERE Category = 'Transportation' GROUP BY Description;
+
+This query helps find out the average amount spent per transaction in travel-related categories.
+13. Are there any patterns in grocery spending (e.g., higher spending on weekends, increased spending during specific seasons)?
+
+SELECT CASE WHEN strftime('%w', "Date") IN ('0', '6') THEN 'Weekend'   -- 0 = Sunday, 6 = Saturday ELSE 'Weekday' END AS Day_Type, SUM("Amount Paid") AS Total_Spending FROM expenses WHERE "Description" LIKE '%groceries%' GROUP BY Day_Type;
+
+
+
+
