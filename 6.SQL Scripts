@@ -93,3 +93,22 @@ FROM expenses
 GROUP BY Year, Quarter
 ORDER BY Year, Quarter
 
+19. On which day maximum number of movies were seen?
+
+SELECT 
+  CASE strftime('%w', Date)
+    WHEN '0' THEN 'Sunday'
+    WHEN '1' THEN 'Monday'
+    WHEN '2' THEN 'Tuesday'
+    WHEN '3' THEN 'Wednesday'
+    WHEN '4' THEN 'Thursday'
+    WHEN '5' THEN 'Friday'
+    WHEN '6' THEN 'Saturday'
+  END AS DayOfWeek,
+  COUNT(*) AS MovieCount
+FROM expenses
+WHERE Description LIKE '%movie%'
+GROUP BY DayOfWeek
+ORDER BY MovieCount DESC
+LIMIT 1;
+
