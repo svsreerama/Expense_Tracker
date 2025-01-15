@@ -37,9 +37,12 @@ SELECT month, category, total_spent
 FROM ranked_spending
 WHERE rn = 1
 
-9. Are there any recurring expenses that occur during specific months of the year (e.g., insurance premiums, property taxes)?
+9. Are there any recurring expenses that occur during specific dates of the year (e.g., insurance premiums, property taxes)?
 
-SELECT Category, Description, COUNT(*) AS Occurrences, STRFTIME('%m', Date) AS Month FROM expenses GROUP BY Category, Description, STRFTIME('%m', Date) HAVING COUNT(*) > 1 ORDER BY Month ASC, Category ASC, Occurrences DESC;
+SELECT category, strftime('%d', date) AS recurring_date, SUM("amount paid") AS total_spent
+FROM expenses
+GROUP BY category, recurring_date
+HAVING COUNT(DISTINCT strftime('%m', date)) = 12;
 
 
 10. How much cashback or rewards were earned in each month?
