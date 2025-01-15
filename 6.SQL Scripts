@@ -110,5 +110,5 @@ FROM expenses
 WHERE Description LIKE '%movie%'
 GROUP BY DayOfWeek
 ORDER BY MovieCount DESC
-LIMIT 1;
+LIMIT 3;
 
