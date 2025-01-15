@@ -93,7 +93,7 @@ FROM expenses
 GROUP BY Year, Quarter
 ORDER BY Year, Quarter
 
-19. On which day maximum number of movies were seen?
+19. On which 3 days of the week maximum number of movies were seen? (Which is it from Sun-Sat??)
 
 SELECT 
   CASE strftime('%w', Date)
@@ -111,4 +111,38 @@ WHERE Description LIKE '%movie%'
 GROUP BY DayOfWeek
 ORDER BY MovieCount DESC
 LIMIT 3;
+
+20. On which date, month and day of week was the maximum cashback received?
+
+SELECT 
+    Date, 
+    MAX(Cashback) AS MaxCashback,
+    strftime('%m', Date) AS MonthNumber,
+    CASE strftime('%m', Date)
+        WHEN '01' THEN 'January'
+        WHEN '02' THEN 'February'
+        WHEN '03' THEN 'March'
+        WHEN '04' THEN 'April'
+        WHEN '05' THEN 'May'
+        WHEN '06' THEN 'June'
+        WHEN '07' THEN 'July'
+        WHEN '08' THEN 'August'
+        WHEN '09' THEN 'September'
+        WHEN '10' THEN 'October'
+        WHEN '11' THEN 'November'
+        WHEN '12' THEN 'December'
+    END AS MonthName,
+    CASE strftime('%w', Date)
+        WHEN '0' THEN 'Sunday'
+        WHEN '1' THEN 'Monday'
+        WHEN '2' THEN 'Tuesday'
+        WHEN '3' THEN 'Wednesday'
+        WHEN '4' THEN 'Thursday'
+        WHEN '5' THEN 'Friday'
+        WHEN '6' THEN 'Saturday'
+    END AS DayOfWeek
+FROM expenses
+GROUP BY Date
+ORDER BY MaxCashback DESC
+LIMIT 1;
 
