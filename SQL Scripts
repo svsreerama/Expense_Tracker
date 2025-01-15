@@ -1,0 +1,28 @@
+1. What is the total amount spent in each category?
+
+SELECT category, SUM("amount paid") AS total_spent FROM expenses GROUP BY category ORDER BY total_spent DESC;
+
+2. What is the total amount spent using each payment mode?
+
+SELECT "Payment Mode", SUM("amount paid") AS total_spent FROM expenses GROUP BY "Payment Mode" ORDER BY total_spent DESC;
+
+3. What is the total cashback received across all transactions?
+
+SELECT SUM(cashback) AS total_cashback FROM expenses;
+
+4. Which are the top 5 most expensive categories in terms of spending?
+
+SELECT category, SUM("amount paid") AS total_spent FROM expenses GROUP BY category ORDER BY total_spent DESC LIMIT 5;
+
+5. How much was spent on transportation using different payment modes?
+
+SELECT "Payment Mode", SUM("amount paid") AS total_spent FROM expenses WHERE category = 'Transportation' GROUP BY "Payment Mode" ORDER BY total_spent DESC;
+6. Which transactions resulted in cashback?
+
+SELECT * FROM expenses WHERE cashback > 0;
+7. What is the total spending in each month of the year?
+
+SELECT strftime('%Y-%m', date) AS month, SUM("amount paid") AS total_spent FROM expenses GROUP BY month ORDER BY month;
+8. Which months have the highest spending in categories like "Travel," "Entertainment," or "Gifts"?
+
+SELECT strftime('%Y-%m', date) AS month, category, SUM("amount paid") AS total_spent FROM expenses WHERE category IN ('Transportation', 'Entertainment', 'Gifts') GROUP BY month, category ORDER BY total_spent DESC;
