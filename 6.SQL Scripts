@@ -59,5 +59,37 @@ FROM expenses
 GROUP BY "Category"
 ORDER BY Percentage_Contribution DESC;
 
+16. On Which date of every month bills where paid?
 
+SELECT strftime('%m', Date) AS Month, MIN(Date) AS First_Payment_Date
+FROM expenses
+WHERE Category = 'Bills'
+GROUP BY strftime('%Y-%m', Date)
+ORDER BY strftime('%Y-%m', Date);
+
+17. Money spent in purchasing books for every month?
+
+
+SELECT 
+    strftime('%Y-%m', Date) AS month,
+    SUM(CASE WHEN Description LIKE '%books%' THEN "Amount Paid" ELSE 0 END) AS total_amount_spent_on_books
+FROM expenses
+GROUP BY month
+ORDER BY month;
+
+18. Quarterly spending of fuel ?
+
+SELECT 
+    strftime('%Y', Date) AS Year,
+    CASE 
+        WHEN strftime('%m', Date) BETWEEN '01' AND '03' THEN 'Q4_2024'
+        WHEN strftime('%m', Date) BETWEEN '04' AND '06' THEN 'Q1_2025'
+        WHEN strftime('%m', Date) BETWEEN '07' AND '09' THEN 'Q2_2025'
+        WHEN strftime('%m', Date) BETWEEN '10' AND '12' THEN 'Q3_2025'
+        ELSE 'Other Quarter'
+    END AS Quarter,
+    SUM("Amount Paid") AS Total_Spending
+FROM expenses
+GROUP BY Year, Quarter
+ORDER BY Year, Quarter
 
