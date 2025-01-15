@@ -47,7 +47,7 @@ HAVING COUNT(DISTINCT strftime('%m', date)) = 12;
 
 10. How much cashback or rewards were earned in each month?
 
-SELECT strftime('%Y-%m', date) AS month, SUM(cashback) AS total_cashback FROM expenses WHERE cashback > 0 GROUP BY month ORDER BY month;
+SELECT strftime('%m', date) AS month, SUM(cashback) AS total_cashback FROM expenses WHERE cashback > 0 GROUP BY month ORDER BY month;
 
 11. How has your overall spending changed over time (e.g., increasing, decreasing, remaining stable)?
 
